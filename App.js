@@ -1,57 +1,36 @@
-/** Author: AnaPatricia Olvera & Wesley Cheung*/
+/*Brendon Wright -- Maskdown Project*/
 import { StatusBar } from 'expo-status-bar';
-import * as Front from 'expo-font';
-import React, {Component, useEffect, useState } from 'react';
-import  Home  from './screens/home';
-import  AppLoading from 'expo-app-loading';
-import Navigator from './routes/homeStack'
-import * as Location from 'expo-location';
-
-const getFonts = () => Font.loadAsync({
-  'quicksand-regular': require('./assets/fonts/Quicksand-Regular.ttf'),
-  'quicksand-semibold': require('./assets/fonts/Quicksand-SemiBold.ttf')
-})
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 export default function App() {
-
-/**This part of the code utilized GeoNavigation to ask the user to have access to its location
- */ const [fontsLoaded, setFontsLoaded]= useState(false);
-
-const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  } 
-
-if(fontsLoaded){
   return (
-    <Navigator />
-   );
-} else{
-  return(
-    <AppLoading
-      startAsync={getFonts}
-      onFinish={() => setFontsLoaded(true)}
-      onError= { (error) => {console.log(error)}}
-    />
-  )
+    <View style={styles.container}>
+      <Image source={require('./assets/small-n95-mask.jpg')} />
+
+      <Text>Make sure to remove your mask by holding the edge of the straps to take it off.
+       As you're removing the mask from your face, make sure you're not touching the inside part of the mask as the mask may become contaminated.</Text>
+      
+      <StatusBar style="auto" />
+      <View style={styles.rating}>
+        <Text>These masks are reusuable, so be sure to place the mask in a breathable container, zip-lock bag, or a plastic bag.</Text>
+        <Text>If you do not wish to use the mask, place it in a zip-lock or plastic bag and dispose of the bag in a garbage can or biomedical waste disposal unit.</Text>
+
+        
+
+      </View>
+    </View>
+  );
 }
 
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  
+});
